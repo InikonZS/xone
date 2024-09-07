@@ -6,6 +6,7 @@
     "target": "ES6",
     "allowJs": true,
     "types": ["babylonjs"],
+    "sourceMap": true
   },
   "files": ["src/index.ts", "./module.d.ts"]
 }

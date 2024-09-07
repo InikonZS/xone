@@ -4,11 +4,10 @@ import grass from './assets/grass.png';
 import rocks from './assets/rocks.png';
 import floor from './assets/floor.png';
 import {init} from './core/xone';
-
-
+import './style.css';
 
 // Get the canvas DOM element
-const canvas: HTMLCanvasElement = document.getElementById('renderCanvas') as HTMLCanvasElement;
+const canvas: HTMLCanvasElement = document.querySelector('.canvas') as HTMLCanvasElement;
 // Load the 3D engine
 const engine = new BABYLON.Engine(canvas, true, {preserveDrawingBuffer: true, stencil: true});
 // CreateScene function that creates and return the scene

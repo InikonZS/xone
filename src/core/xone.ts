@@ -9,14 +9,14 @@ interface IVector{
 
 export function init(onRender:(out: {player: IVector, polys: Array<Array<IVector>>, holes: Array<Array<IVector>>, playerPath: Array<IVector>, enemies: Array<{pos: IVector, speed: IVector}>, inPoly: boolean})=>void){
     const areaOutput = document.querySelector('.area-output');
-    /*const ba = document.querySelector('.joystick_btn_a');
-    const bw = document.querySelector('.joystick_btn_w');
-    const bs = document.querySelector('.joystick_btn_s');
-    const bd = document.querySelector('.joystick_btn_d');
-    const wrapper = document.querySelector('.xone-wrapper');
+    const ba = document.querySelector('.joystick_btn_a') as HTMLDivElement;
+    const bw = document.querySelector('.joystick_btn_w') as HTMLDivElement;
+    const bs = document.querySelector('.joystick_btn_s') as HTMLDivElement;
+    const bd = document.querySelector('.joystick_btn_d') as HTMLDivElement;
+    const wrapper = document.querySelector('.xone-wrapper') as HTMLDivElement;
     
-    const canvas = document.querySelector('.canvas');
-    canvas.width = 200;
+    const canvas = document.querySelector('.canvas') as HTMLCanvasElement;
+    /*canvas.width = 200;
     canvas.height = 200;
     const ctx = canvas.getContext('2d');*/
     //const player = {x:100, y:145};
@@ -47,7 +47,7 @@ export function init(onRender:(out: {player: IVector, polys: Array<Array<IVector
         disPlayerPath.push({...player});
     }
 
-    /*ba.onclick =()=>{
+    ba.onclick =()=>{
         if (speed.x != 1){
             speed = {x:-1, y:0};
             changeDir();
@@ -70,7 +70,7 @@ export function init(onRender:(out: {player: IVector, polys: Array<Array<IVector
             speed = {x:1, y:0};
             changeDir();
         }
-    }*/
+    }
     window.onkeydown=(e=>{
         console.log(e.code);
         if (e.code == 'KeyA' || e.code == 'ArrowLeft'){
@@ -113,21 +113,21 @@ export function init(onRender:(out: {player: IVector, polys: Array<Array<IVector
     }
 
     let canvasScaler = 1;
-    /*const resize = ()=>{
+    const resize = ()=>{
         const minSize = Math.min(wrapper.clientWidth, wrapper.clientHeight);;
         canvasScaler = minSize / gameSize.x;
         canvas.width = minSize
         canvas.height = minSize
     }
 
-    window.addEventListener('resize', resize);*/
+    window.addEventListener('resize', resize);
     let lastInPoly = false;
     let lastInDispoly = false;
     let lastInDispolyIndex = -1;
     let lastPointInPoly;
     let sumArea = calcArea();
 
-    //resize();
+    resize();
     const render = ()=>{
         requestAnimationFrame(()=>{
             /*ctx.lineWidth = canvasScaler;
