@@ -4,11 +4,13 @@ import grass from './assets/grass.png';
 import rocks from './assets/rocks.png';
 import floor from './assets/floor.png';
 import {init} from './core/xone';
+import { render2d } from './view2d';
 import './style.css';
 
 // Get the canvas DOM element
 const canvas: HTMLCanvasElement = document.querySelector('.canvas') as HTMLCanvasElement;
 // Load the 3D engine
+
 const engine = new BABYLON.Engine(canvas, true, {preserveDrawingBuffer: true, stencil: true});
 // CreateScene function that creates and return the scene
 const createScene = function(){
@@ -141,3 +143,4 @@ engine.runRenderLoop(function(){
 window.addEventListener('resize', function(){
     engine.resize();
 });
+//init((data)=>render2d(canvas.getContext('2d'), data));
