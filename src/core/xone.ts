@@ -47,55 +47,58 @@ export function init(onRender:(out: {player: IVector, polys: Array<Array<IVector
         disPlayerPath.push({...player});
     }
 
-    ba.onclick =()=>{
-        if (speed.x != 1){
-            speed = {x:-1, y:0};
-            changeDir();
+    const turn = (direction: string)=>{
+        if (direction == 'A'){
+            if ((lastInDispoly || speed.x != 1) && speed.x != -1){
+                speed = {x:-1, y:0};
+                changeDir();
+            }
+        } else
+        if (direction == 'W'){
+            if ((lastInDispoly || speed.y != 1) && speed.y != -1){
+                speed = {x:0, y:-1};
+                changeDir();
+            }
+        } else
+        if (direction == 'S'){
+            if ((lastInDispoly ||speed.y != -1) && speed.y != 1){
+                speed = {x:0, y:1};
+                changeDir();
+            }
+        } else
+        if (direction == 'D'){
+            if ((lastInDispoly || speed.x != -1) && speed.x != 1){
+                speed = {x:1, y:0};
+                changeDir();
+            }
         }
+    }
+
+    ba.onclick =()=>{
+        turn('A');
     }
     bw.onclick =()=>{
-        if (speed.y != 1){
-            speed = {x:0, y:-1};
-            changeDir();
-        }
+        turn('W');
     }
     bs.onclick =()=>{
-        if (speed.y != -1){
-            speed = {x:0, y:1};
-            changeDir();
-        }
+        turn('S');
     }
     bd.onclick =()=>{
-        if (speed.x != -1){
-            speed = {x:1, y:0};
-            changeDir();
-        }
+        turn('D');
     }
     window.onkeydown=(e=>{
         console.log(e.code);
         if (e.code == 'KeyA' || e.code == 'ArrowLeft'){
-            if (speed.x != 1){
-                speed = {x:-1, y:0};
-                changeDir();
-            }
-        }
+            turn('A');
+        } else
         if (e.code == 'KeyW' || e.code == 'ArrowUp'){
-            if (speed.y != 1){
-                speed = {x:0, y:-1};
-                changeDir();
-            }
-        }
+            turn('W');
+        } else
         if (e.code == 'KeyS' || e.code == 'ArrowDown'){
-            if (speed.y != -1){
-                speed = {x:0, y:1};
-                changeDir();
-            }
-        }
+            turn('S');
+        } else
         if (e.code == 'KeyD' || e.code == 'ArrowRight'){
-            if (speed.x != -1){
-                speed = {x:1, y:0};
-                changeDir();
-            }
+            turn('D');
         }
     });
 
