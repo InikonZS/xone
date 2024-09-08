@@ -342,7 +342,7 @@ export function init(onRender:(out: {player: IVector, polys: Array<Array<IVector
                     }
                 });
             });
-            disPlayerPath.forEach((it, i)=>{
+            !indispoly && disPlayerPath.forEach((it, i)=>{
                 if (i>= disPlayerPath.length-2){
                     return;
                 };
