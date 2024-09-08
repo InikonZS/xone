@@ -61,9 +61,9 @@ const createScene = function(){
     sides.position.y = -0.1;
     sides.material = rocksMaterial;
 
-    const enemySpheres = new Array(2).fill(null).map((it, i)=> {
+    const enemySpheres = new Array(20).fill(null).map((it, i)=> {
         const enemy = BABYLON.Mesh.CreateSphere('enemy_sphere'+i, 16, 1, scene, false, BABYLON.Mesh.FRONTSIDE);
-        enemy.position.y = -0.5;
+        enemy.position.y = -0.5 - 3;
         return enemy;
     });
     // Create a built-in "ground" shape; its constructor takes 6 params : name, width, height, subdivision, scene, updatable
@@ -107,6 +107,13 @@ const createScene = function(){
             enemySpheres[i].position.x = it.pos.x/10;
             enemySpheres[i].position.z = -it.pos.y/10;
         });
+        enemySpheres.forEach((it, i)=>{
+            if (data.enemies[i]){
+                it.position.y = -0.5;
+            } else {
+                it.position.y = -0.5 -3;
+            }
+        })
 
         pathPoints.forEach(it=>it.dispose());
         pathPoints.splice(0, pathPoints.length);

@@ -39,8 +39,8 @@ export function init(onRender:(out: {player: IVector, polys: Array<Array<IVector
     let gameSize = {x: 200, y: 200};
     //const polys = [[{x:40, y:170}, {x:40, y:80}, {x:170, y:80},  {x:170, y:170}]];
     //const dispolys = [[{x:70, y:120}, {x:70, y:90}, {x:130, y:90},  {x:130, y:120}], [{x:140, y:120}, {x:140, y:90}, {x:160, y:90},  {x:160, y:120}]];
-    const polys = [[{x:0, y:gameSize.y}, {x:gameSize.x, y:gameSize.y}, {x:gameSize.x, y:0},  {x:0, y:0}]];
-    const dispolys = [[{x:40, y:200 -40}, {x:gameSize.x -40, y:gameSize.y-40}, {x:gameSize.x-40, y:40},  {x:40, y:40}]];
+    let polys = [[{x:0, y:gameSize.y}, {x:gameSize.x, y:gameSize.y}, {x:gameSize.x, y:0},  {x:0, y:0}]];
+    let dispolys = [[{x:40, y:200 -40}, {x:gameSize.x -40, y:gameSize.y-40}, {x:gameSize.x-40, y:40},  {x:40, y:40}]];
 
     const changeDir = ()=>{
         playerPath.push({...player});
@@ -111,8 +111,27 @@ export function init(onRender:(out: {player: IVector, polys: Array<Array<IVector
         let area = 0;
         polys.forEach(poly => area+= polyArea(poly));
         dispolys.forEach(poly => area-= polyArea(poly));
-        areaOutput.textContent = Math.floor((area - initArea) / targetArea * 100).toString();
+        const areaPercent = Math.floor((area - initArea) / targetArea * 100);
+        areaOutput.textContent = areaPercent.toString();
+        if (areaPercent>=70){
+            handleWin();
+        }
         return area;
+    }
+
+    const handleWin = ()=>{
+        player.x = 100;
+        player.y = 20;
+        speed.x =0;
+        speed.y =0;
+        areaOutput.textContent = '0';
+        disPlayerPath.splice(0, disPlayerPath.length);
+        polys = [[{x:0, y:gameSize.y}, {x:gameSize.x, y:gameSize.y}, {x:gameSize.x, y:0},  {x:0, y:0}]];
+        dispolys = [[{x:40, y:200 -40}, {x:gameSize.x -40, y:gameSize.y-40}, {x:gameSize.x-40, y:40},  {x:40, y:40}]];
+        enemies.push({
+            pos: {x:Math.random() *(gameSize.x - 40 - 40 - 2) + 40 + 1, y:Math.random() *(gameSize.x - 40 - 40 - 2) + 40 + 1},
+            speed: {x:Math.sign(Math.random()-0.5)*0.5, y:Math.sign(Math.random()-0.5)*0.5}
+        })
     }
 
     let canvasScaler = 1;
@@ -222,9 +241,10 @@ export function init(onRender:(out: {player: IVector, polys: Array<Array<IVector
                         console.log( polyArea(pol0), polyArea(pol1))
                         polys[0] = polyArea(pol0)> polyArea(pol1)? pol0 : pol1;
                         console.log('s = ', polyArea(polys[0]));
-                        sumArea = calcArea();
+                        
                         const _notInPoly = initial.find(p => false == insidePoly(polys[0], p));
                         _notInPoly && console.log('shit')
+                        sumArea = calcArea();
                     }
                     playerPath.splice(0, playerPath.length);
                 }
@@ -268,9 +288,10 @@ export function init(onRender:(out: {player: IVector, polys: Array<Array<IVector
                         dispolys[currentDispoly] = polyArea(pol0)> polyArea(pol1)? pol0 : pol1;
                     }*/ //> and < for  different sides cut, check balls
                     console.log('s = ', polyArea(dispolys[currentDispoly]));
-                    sumArea = calcArea();
+                    
                     const _notInPoly = initial.find(p => false == insidePoly(dispolys[currentDispoly], p));
                     _notInPoly && console.log('shit')
+                    sumArea = calcArea();
                 }
                 disPlayerPath.splice(0, disPlayerPath.length);
             }
